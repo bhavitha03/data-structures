@@ -1,0 +1,169 @@
+//Circular linked list
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct CNode
+{
+        int data;
+        struct CNode * next;
+}CNode;
+CNode *getNode();
+CNode *head = NULL;
+CNode *temp = NULL;
+void insert_Beg();
+void insert_End();
+void insert_ATK();
+void display();
+void delete_beg();
+void delete_end();
+void delete_ATK();
+void main()
+{
+        int ch;
+        while(1)
+        {
+                printf("1.Insert at Beg\n2.Insert at end\n3.Insert at K\n4.Display\n5.delete at beg\n6.delete at end\n7.delete at K\n8.Exit\n");
+                printf("Enter your option : ");
+                scanf("%d",&ch);
+                switch(ch)
+                {
+                        case 1 : printf("Insertion at Beginning\n");
+                                 insert_Beg();
+                                 break;
+                       case 2: printf("Insertion at the end\n");
+                                insert_End();
+                                break;
+                       case 3: printf("Insertion at position K\n");
+                                insert_ATK();
+                                break;
+                       case 4: printf("The lsit is :  \n");
+                                display();
+                                break;
+                       case 5: printf("Deletion at beginning\n");
+                                delete_beg();
+                                break;
+                       case 6: printf("Deletion at end\n");
+                                delete_end();
+                                break;
+                       case 7: printf("Deletion at k\n");
+                                delete_ATK();
+                                break;
+                       case 8: exit(0);
+                                break;
+                }
+        }
+}
+CNode *getNode()
+{
+       CNode * new = (CNode*)malloc(sizeof(CNode));
+        printf("Enter data : ");
+        scanf("%d",&new->data);
+        new->next = NULL;
+        return new;
+}
+void insert_Beg()
+{
+        CNode *new = getNode();
+        if(head == NULL)
+        { head = new;
+                head -> next = head;
+                temp = head;
+        }
+        else
+        {
+                new->next = head;
+                temp->next = new;
+                head = new;
+        }
+}
+void insert_End()
+{
+        CNode *new = getNode();
+        if(head == NULL)
+        {
+                head = new;
+                head->next = head;
+                temp = head;
+        }
+        else
+        {
+                temp->next = new;
+                new->next = head;
+                temp = new;
+        }
+
+}
+void display()
+{
+        CNode *curr = head;
+        if( curr == NULL)
+                printf("The list is empty ");
+        else
+        {
+        while(curr->next != head)
+        {
+
+                printf("%d ",curr->data);
+                curr = curr->next;
+        }
+        printf("%d ",curr->data);
+        }
+}
+void insert_ATK()
+{
+        CNode *new = getNode();
+        int i,k;
+        printf("enter pos :");
+        scanf("%d",&k);
+        temp = head;
+        for(i=0;i<k-1;i++)
+                temp = temp->next;
+        new->next = temp->next;
+        temp->next = new;
+}
+void delete_beg()
+{
+        CNode *ptr = head;
+        if(head ->next == head)
+        {
+                head = temp = NULL;
+                free(ptr);
+        }
+        else
+        {
+                temp->next = head->next;
+                head = head->next;
+                free(ptr);
+        }
+
+
+}
+void delete_end()
+{
+        CNode *ptr = temp;
+        if(head->next == head)
+        {
+                head = temp = NULL;
+                free(ptr);
+        }
+        else
+        {
+                CNode *temp1 = head;
+                while(temp1->next != temp)
+                        temp1 = temp1->next;
+                        temp1->next = head;
+                        temp = temp1;
+                        free(ptr);
+
+        }
+}
+int find_length()
+{
+        int count =1;
+        temp = head;
+        while(temp->next != head)
+        {
+                count++;
+                temp = temp->next;
+        }
+        printf("%d\n",count);
+}
