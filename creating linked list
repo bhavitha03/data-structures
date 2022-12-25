@@ -1,0 +1,35 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct Node
+{
+        int data;
+        struct Node *next;
+} *head = NULL,*temp = NULL;
+void main()
+{
+        int i,a[8];
+        printf("Enter array elements :");
+        for(i=0;i<8;i++)
+        {
+                scanf("%d",&a[i]);
+                struct Node *new = (struct Node *)malloc(sizeof(struct Node));
+                        new->data = a[i];
+                        new->next = NULL;
+                        if(head == NULL)
+                        {
+                                head = new;
+                                temp = new;
+                        }
+                        else
+                        {
+                                temp->next = new;
+                                temp = new;
+                        }
+        }
+        temp = head;
+        while(temp != NULL)
+        {
+                printf("%d ",temp->data);
+                temp = temp->next;
+        }
+}
