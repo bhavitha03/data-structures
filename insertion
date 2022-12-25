@@ -1,0 +1,118 @@
+include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+        int data;
+        struct Node * next;
+}Node;
+Node *getNode();
+Node *head = NULL;
+Node *temp = NULL;
+void insert_Beg();
+void insert_End();
+void insert_ATK();
+void display();
+void count();
+void main()
+{
+        int ch;
+        while(1)
+        {
+                printf("1.Insert at Beg\n2.Insert at end\n3.Insert at K\n4.Display\n5.Find length\n6.Exit");
+                printf("Enter your option : ");
+                scanf("%d",&ch);
+                switch(ch)
+                {
+                        case 1 : printf("Insertion at Beginning\n");
+                                 insert_Beg();
+                                 break;
+                        case 2: printf("Insertion at the end\n");
+                                insert_End();
+                                break;
+                        case 3: printf("Insertion at position K\n");
+                                insert_ATK();
+                                break;
+                        case 4: if(head == NULL)
+                                        printf("THE list is empty\n");
+                                else
+{
+                                        printf("The list is : \n");
+                                        display();
+                                }
+                                break;
+                        case 5: printf("Finding the length of list \n");
+                                count();
+                                break;
+                        case 6: exit(0);
+                                break;
+                }
+        }
+}
+Node *getNode()
+{
+        Node * new = (Node*)malloc(sizeof(Node));
+        printf("Enter data : ");
+        scanf("%d",&new->data);
+        new->next = NULL;
+        return new;
+}
+void insert_Beg()
+{
+        Node *new = getNode();
+        if(head == NULL)
+                temp = new;
+        new->next = head;
+        head = new;
+}
+void insert_End()
+{
+        Node *new = getNode();
+        if(head == NULL)
+        {
+                head = new;
+                temp = new;
+        }
+ else
+        {
+                temp->next = new;
+                temp = new;
+        }
+}
+void display()
+{
+        Node *curr = head;
+        while(curr != NULL)
+        {
+                printf("%d ",curr->data);
+                curr = curr->next;
+        }
+}
+void count()
+{
+        int count = 1;
+        temp = head;
+        while(temp->next != NULL)
+        {
+                count++;
+                temp=temp->next;
+        }
+        printf("%d\n",count);
+}
+void insert_ATK()
+{
+
+        int i,k,len;
+        Node *new = getNode();
+        printf("Enter pos :");
+        scanf("%d",&k);
+        if(k == 1)
+        {
+            insert_Beg();
+        }
+        else if(k == len)
+        {
+             len = count();
+            insert_End();
+        }
+        else if( 1< k < len)
+        {
