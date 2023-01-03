@@ -1,0 +1,65 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct dnode
+{
+    int data;
+    struct dnode *next,*prev;
+}dnode;
+dnode*head = NULL;
+dnode*tail = NULL;
+dnode*temp = NULL;
+void insert_beg();
+void insert_end();
+void insert_atk();
+void del_beg();
+void del_end();
+void insert_atk;
+void fwd_traverse();
+void rev_traverse();
+int main()
+void insert_beg()
+{
+    dnode*new = getnode();
+    if(head == NULL)
+    {
+        head = tail = new;
+    }
+    else
+    {
+        new -> next = head;
+        head -> prev = new;
+        head = new;
+    }
+}
+void insert_end()
+{
+    dnode*new = getnode();
+    if (head == NULL)
+    {
+        head = tail = new;
+    }
+    else
+    {
+        tail -> next = new;
+        new -> prev = tail;
+        tail = new;
+    }
+}
+void del_beg()
+{
+    node*temp=head;
+    if(head == NULL)
+    {
+        printf("List is empty");
+    }
+    else if (head -> next == NULL)
+    {
+        head = tail = NULL;
+    }
+    else
+    {
+        head -> next -> prev = NULL;
+        head = head -> next;
+        free(temp);
+    }
+}
