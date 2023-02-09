@@ -1,0 +1,58 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 50
+char tree[MAX] = {'\0'};
+int n;
+void root(char key)
+{
+        if(tree[0]!= '\0')
+        {
+                printf("Root is already exist");
+        }
+        else
+        {
+                (tree[0]=key);
+        }
+}
+void insert_lchild(char key,int parent)
+{
+        if(tree[parent]=='\0')
+        {
+                printf("parent doesn't exist");
+        }
+        else
+        {
+                tree[(2*parent)+1]=key;
+                n=(2*parent)+1;
+        }
+}
+void insert_rchild(char key,int parent)
+{
+        if(tree[parent]=='\0')
+        {
+                printf("parent doesn't exist");
+        }
+        else
+        {
+                tree[(2*parent)+2]=key;
+                  n=2*parent+2;
+        }
+}
+void print_tree()
+{
+        for(int i=0;i<=n;i++)
+        {
+                printf("\n%c  is at %d  ",tree[i],i);
+        }
+}
+int main()
+{
+        root('A');
+        insert_lchild('G',0);
+        insert_rchild('E',0);
+        insert_lchild('F',1);
+        insert_rchild('S',1);
+        insert_lchild('K',2);
+        insert_rchild('L',2);
+        print_tree();
+}
