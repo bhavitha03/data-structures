@@ -50,13 +50,10 @@ void inorder(Node *root){
         }
 }
 void main(){
-        int n;
-        int ch,i;
-        int key;
-         printf("\n1.Preorder\n2.Postorder\n3.Inorder\n4.insert lc\n5.insert rc\n6.root\n7.Exit\n");
+        int n,ch,i,key;
         while(1)
         {
-                printf("Enter your choice : ");
+                printf("\n1.Preorder\n2.Postorder\n3.Inorder\n4.insert lc\n5.insert rc\n6.root\n7.Exit\nEnter your choice : ");
                 scanf("%d",&ch);
                 switch(ch)
                 {
@@ -75,7 +72,7 @@ void main(){
                                scanf("%d",&i);
                                insert_lc(root);
                                break;
-                        case 5:printf("enter the parent of child to insert: ");
+                        case 5:printf("enter the parent of child to insert:: ");
                                scanf("%d",&i);
                                insert_rc(root);
                                break;
