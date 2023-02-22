@@ -1,0 +1,116 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+typedef struct Node{
+        int key;
+        struct Node *rc,*lc;
+}Node;
+Node *root = NULL;
+Node *root1 = NULL;
+Node *getNode(){
+        Node *new = (Node *)malloc(sizeof(Node));
+        printf("Enter key: ");
+        scanf("%d",&new->key);
+        new->rc=NULL;
+        new->lc=NULL;
+        return new;
+}
+void insert_root(){
+        Node *new = getNode();
+        if(root==NULL)
+                root=new;
+}
+void insert_root1(){
+        Node *new = getNode();
+        if(root1==NULL)
+                root1=new;
+}
+void insert_lc(Node *root){
+        Node *new = getNode();
+        if(root->lc==NULL)
+                root->lc=new;
+}
+bool mirror(Node *root, Node *root1){
+    if (root==NULL && root1 == NULL) 
+      return true;
+    if(root==NULL||root1==NULL)
+        return false;
+    if (root->key != root1->key)
+        return false;
+    mirror(root->lc, root1->rc);
+    mirror(root->rc, root1->lc);
+    
+}
+void insert_rc(Node *root){
+         Node *new = getNode();
+         if(root->rc==NULL)
+                root->rc=new;
+}
+int preorder(Node *root){
+        if(root!=NULL){
+                printf("%d ",root->key);
+                preorder(root->lc);
+                preorder(root->rc);
+        }
+}
+void main(){
+        int n,num;
+        int ch,ch1,n1=0,n2=0,i,j,k,l;
+        int key;
+        printf("Enter number of nodes : ");
+        scanf("%d",&num);
+        printf("1.insert root\n2.insert lc\n3.insert rc\n4.Exit\n");
+        while(n1<num)
+        {
+                printf("Enter your choice : ");
+                scanf("%d",&ch);
+                switch(ch)
+                {
+                        case 1:insert_root();
+                               break;
+                        case 2:printf("enter the parent of child to insert: ");
+                               scanf("%d",&i);
+                               insert_lc(root);
+                               break;
+                        case 3:printf("enter the parent of child to insert: ");
+                               scanf("%d",&i);
+                               insert_rc(root);
+                               break;
+                        case 4: exit(0);
+                                break;
+                }
+                n1++;
+                
+        }
+        printf("\nPreorder : ");
+        preorder(root);
+        printf("\nSecond child\n");
+        while(n2<num)
+        {
+                printf("Enter your choice : ");
+                scanf("%d",&ch1);
+                switch(ch1)
+                {
+                        case 1:insert_root1();
+                               break;
+                        case 2:printf("enter the parent of child to insert: ");
+                               scanf("%d",&j);
+                               insert_lc(root1);
+                               break;
+                        case 3:printf("enter the parent of child to insert: ");
+                               scanf("%d",&j);
+                               insert_rc(root1);
+                               break;
+                        case 4: exit(0);
+                                break;
+                }
+                n2++;
+        }
+        printf("\nPreorder : ");
+        preorder(root1);
+        mirror(root,root1);
+        if(mirror(root,root1)==1)
+            printf("\nMirror");
+        else 
+            printf("\nnot mirror");
+}
