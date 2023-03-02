@@ -1,0 +1,120 @@
+#include<stdio.h>
+#include<stdlib.h>
+int linear_search(int a[], int n, int key) {
+        int res;
+        n--;
+        if(n>0) {
+                if(a[n] == key)
+                        return n;
+                else
+                        res = linear_search(a,n,key);
+                }
+        else
+                return -1;
+        return res;
+}
+int binarysearch(int A[], int low, int high, int key) {
+    int mid;
+    if(low > high)
+        return -1;
+    mid = low+(high - low)/2;
+    if(key == A[mid])
+        return mid;
+    else if(key < A[mid])
+        return binarysearch(A,low , mid-1,key);
+    else
+       return binarysearch(A, mid +1,high ,key);
+
+}
+int swaparray(int *a, int *b) {
+        int temp;
+        temp = *a;
+        *a = *b;
+        *b = temp;
+}
+int bubble_sort(int a[], int n) {
+    int i,j;
+    for(i=0;i<(n-1);i++) {
+        for(j=0;j<(n-i-1);j++) {
+            if(a[j]>a[j+1]) {
+                swaparray(&a[j], &a[j+1]);
+            }
+        }
+    }
+}
+int insertion_sort(int a[], int n) {
+    int i,j,temp;
+    for(i=1;i<n;i++) {
+        temp=a[i];
+        j=i-1;
+        while((j>=0)&&(a[j]>=temp)) {
+            a[j+1]=a[j];
+            j--;
+        }
+        a[j+1]=temp;
+    }
+}
+void selection_sort(int a[], int n) {
+        int min, i, j, temp;
+        for(i=0;i<n;i++) {
+                min = i;
+                for(j=i+1;j<n;j++) {
+                        if(a[j]<a[min])
+                                min = j;
+                }
+                        temp = a[min];
+                        a[min] = a[i];
+                        a[i] = temp;
+        }
+}
+void main(){
+        int ch,key,r,n,res,low=0;
+        printf("\n1.linear search\n2.binary search\n3.bubble sort\n4.insertion sort\n5.selection sort\n6.exit");
+        printf("\nEnter size of the array : ");
+        scanf("%d",&n);
+        int a[n],high =n-1;
+        printf("Enter array elements : ");
+        for(int i=0;i<n;i++){
+                scanf("%d",&a[i]);
+        }
+        while(1){
+
+                printf("\nEnter option : ");
+                scanf("%d",&ch);
+                switch(ch){
+                        case 1: printf("\nEnter key : ");
+                                scanf("%d",&key);
+                                r=linear_search(a,n,key);
+                                if(r==-1)
+                                        printf("Not found");
+                                else
+                                        printf("Found");
+                                break;
+                        case 2: printf("\nEnter key: ");
+                                scanf("%d",&key);
+                                r=binarysearch(a,low,high,key);
+                                if(r==-1)
+                                        printf("Not found");
+                                else
+                                        printf("Found");
+                                break;
+                        case 3: bubble_sort(a,n);
+                                printf("Sorted elements are : ");
+                                for(int i=0;i<n;i++)
+                                        printf("%d ",a[i]);
+                                break;
+                        case 4: insertion_sort(a,n);
+                                printf("Sorted elements are : ");
+                                for(int i=0;i<n;i++)
+                                        printf("%d ",a[i]);
+                                break;
+                        case 5: selection_sort(a,n);
+                                printf("Sorted elements are : ");
+                                for(int i=0;i<n;i++)
+                                        printf("%d ",a[i]);
+                                break;
+                        case 6: exit(0);
+                }
+        }
+}
+  
