@@ -1,0 +1,49 @@
+#include<stdio.h>
+int main(){
+    int n;
+    printf("Enter no of elements");
+    scanf("%d",&n);
+    int a[n][n],q[n],v[n],i,j,start,f=-1,r=-1;
+    for(i=0;i<n;i++)
+        v[i]=0;
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
+            scanf("%d",&a[i][j]);
+        }
+    }
+    printf("array elements");
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
+            printf("%d",a[i][j]);
+        }
+        printf("\n");
+    }
+    printf("neighbouring elements");
+    for(i=0;i<n;i++){
+        printf("the neighbouring elements of %d is ",i);
+        for(j=0;j<n;j++){
+            if(a[i][j]==1)
+                printf("%d",j);
+        }
+        printf("\n");
+    }
+    printf("Enter start:");
+    scanf("%d",&start);
+    f=r=0;
+    i=start;
+    q[f]=i;
+    printf("%3d",i);
+    v[i]=1;
+    while(f<=r){
+        for(j=0;j<n;j++){
+            if(a[i][j]==1&&v[j]==0){
+                r++;
+                q[r]=j;
+                v[j]=1;
+                printf("%3d",j);
+            }
+        }
+        f++;
+        i=q[f];
+    }
+}
