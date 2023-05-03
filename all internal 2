@@ -1,0 +1,696 @@
+//1.BINARY SEARCH TREE
+#include<stdlib.h>
+#include<stdio.h>
+typedef struct Node
+{
+        int key;
+        struct Node *l,*r;
+}Node;
+Node *root=NULL;
+Node *getnode()
+{
+        Node *new=(Node *)malloc(sizeof(Node));
+        new->l=NULL;
+        new->r=NULL;
+        return new;
+}
+Node *search(Node *root,int key)
+{
+        if(root==NULL)
+                return NULL;
+        else if(root->key==key)
+                return root;
+        else if(root->key > key)
+                search(root->l,key);
+        else if(root->key < key)
+                search(root->r,key);
+}
+Node *insert(Node *node,int key)
+{
+        if(root==NULL)
+        {
+                Node *new=getnode();
+                new->key=key;
+                root=new;
+        }
+        else if(node==NULL)
+        {
+                Node *new=getnode();
+                new->key=key;
+                node=new;
+        }
+        else if(key < node->key)
+                node->l = insert(node->l,key);
+        else
+                node->r = insert(node->r,key);
+        return node;
+}
+
+void mirrortree(Node *node)
+{
+    Node *temp;
+    if(node==NULL)
+    {
+    return;
+    }
+    else
+    mirrortree(node->l);
+    mirrortree(node->r);
+    temp=node->l;
+    node->l=node->r;
+    node->r=temp;
+
+}
+
+
+
+int  getminimum(Node *node)
+{
+        Node *curr = node;
+        while(curr->l!=NULL)
+                curr=curr->l;
+        return (curr->key);
+}
+int  getmaximum(Node *node)
+{
+        Node *curr = node;
+        while(curr->r!=NULL)
+                curr=curr->r;
+        return (curr->key);
+}
+Node *getmin(Node *node)
+{
+        Node *curr = node;
+        while(curr->l!=NULL)
+                curr=curr->l;
+        return curr;
+}
+Node *del(Node *node,int key)
+{
+        if(node==NULL)
+                return NULL;
+        else if(key < node->key)
+                node->l = del(node->l,key);
+        else if(key > node->key)
+                node->r = del(node->r,key);
+        else
+        {
+                if(node->l==NULL)
+                {
+                        Node *temp = node->r;
+                        if(node==temp)
+                                root=temp;
+                        free(node);
+                        return temp;
+                }
+                else if(node->r==NULL)
+                {
+                        Node *temp = node->l;
+                        if(node==temp)
+                                root=temp;
+                        free(node);
+                        return temp;
+                }
+                else
+                {
+                        Node *min = getmin(node->r);
+                        node->key = min->key;
+                        node->r = del(node->r,min->key);
+                }
+        }
+        return node;
+}
+void inorder(Node *root)
+{
+        if(root!=NULL)
+        {
+                inorder(root->l);
+                printf("%5d",root->key);
+                inorder(root->r);
+        }
+}
+void main()
+{
+        int n,key,ch,i,data;
+        Node *k;
+        while(1)
+        {
+                printf("\n 1.insert \n 2.search \n 3.inorder \n 4.delete \n 5.minimumelement \n 6.maximumelement \n 7.mirrortree \n 8.exit");
+                printf("\n enter option");
+                scanf("%d",&ch);
+                switch(ch)
+                {
+                        case 1:printf("\n enter key to insert");
+                               scanf("%d",&key);
+                               insert(root,key);
+                               break;
+                        case 2:printf("\n enter element to search");
+                               scanf("%d",&key);
+                               if(search(root,key))
+                                       printf("\n element found");
+                               else
+                                       printf("\n element not found");
+                               break;
+                        case 3:printf("\n inorder traversal");
+                               inorder(root);
+                               break;
+                        case 4:printf("\n enter element to delete");
+                               scanf("%d",&i);
+                               del(root,i);
+                               break;
+                        case 5:data=getminimum(root);
+                               printf("\n minimum element is  %d ",data);
+                               break;
+                        case 6:data=getmaximum(root);
+                               printf("\n maximum element is %d",data);
+                               break;
+                        case 7:printf("\n mirror of a BST");
+                               mirrortree(root);
+                               inorder(root);
+                               break;
+                        case 8:exit(-1);
+                               break;
+                }
+        }
+}
+
+
+//2.BINARY TREE(LINKED)
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int data;
+    struct node *left,*right;
+};
+struct node *root=NULL;
+struct node *getnode()
+{
+    struct node *new=(struct node *)malloc(sizeof(struct node));
+    printf("\n enter data");
+    scanf("%d",&new->data);
+    new->left=NULL;
+    new->right=NULL;
+    return new;
+}
+void insert_root()
+{
+    struct node *new=getnode();
+    if(root==NULL)
+    root=new;
+    else
+    printf("\n root already exist");
+}
+void insert_right(struct node *root)
+{
+    struct node *new=getnode();
+    if(root->right==NULL)
+    root->right=new;
+    else
+    printf("\n right child already eixst");
+}
+void insert_left(struct node *root)
+{
+    struct node *new=getnode();
+    if(root->left==NULL)
+    root->left=new;
+    else
+    printf("\n leftchild already exist");
+}
+void preorder(struct node *root)
+{
+    struct node *right,*left;
+    if(root!=NULL)
+    {
+        printf("%5d",root->data);
+        preorder(root->left);
+        preorder(root->right);
+    }
+}
+void inorder(struct node *root)
+{
+    struct node *right,*left;
+    if(root!=NULL)
+    {
+        inorder(root->left);
+        printf("%5d",root->data);
+        inorder(root->right);
+    }
+}
+void postorder(struct node *root)
+{
+    if(root!=NULL)
+    {
+        postorder(root->left);
+        postorder(root->right);
+        printf("%5d",root->data);
+    }
+}
+
+int height(struct node *root)
+{
+    int leftheight,rightheight;
+    if(root==NULL)
+    return 0;
+    else
+    leftheight=height(root->left);
+    rightheight=height(root->right);
+   
+    if(leftheight>rightheight)
+    return (leftheight+1);
+    else
+    return (rightheight+1);
+}
+int main()
+{
+    int key,h;
+    insert_root();
+    insert_left(root);
+    insert_right(root);
+    insert_left(root->left);
+    insert_right(root->right);
+    printf("\n preorder traversal");
+    preorder(root);
+    printf("\n inorder traversal");
+    inorder(root);
+    printf("\n postorder traversal");
+    postorder(root);
+    h=height(root);
+    printf("\n height of a binarytree is %d",h);
+}
+//3.SEARCHING AND SORTING
+#include<stdio.h>
+#include<stdlib.h>
+void linearsearch(int a[],int key)
+{
+    int i,n;
+    for(i=0;i<n;i++)
+    {
+        if(key==a[i])
+        {
+            printf("\n element found at index %d",i);
+            break;
+        }
+    }
+    if(i=n)
+    printf("\n element not found");
+}
+void binarysearch(int a[],int n,int key)
+{
+int i;
+int low=0;
+int high=n-1;
+while(low<=high)
+{
+int mid=(low+high)/2;
+if(a[mid]==key)
+{
+printf("\n value of index is %d",mid);
+break;
+}
+else if(a[mid]>key)
+{
+high=mid-1;
+}
+else
+{
+low=mid+1;
+}
+}
+}
+void Bubblesort(int a[],int n)
+{
+int temp,i,j,count;
+for(i=0;i<n;i++)
+{
+count=0;
+for(j=0;j<n-i-1;j++)
+{
+if(a[j]>a[j+1])
+{
+temp=a[j];
+a[j]=a[j+1];
+a[j+1]=temp;
+count++;
+}
+}
+if(count==0)
+break;
+}
+}
+void insertionsort(int a[],int n)
+{
+    int i,j,temp;
+    for(i=1;i<n;i++)
+    {
+        temp=a[i];
+        j=i-1;
+        while(j>=0 && a[j]>temp)
+        {
+            a[j+1]=a[j];
+            j--;
+        }
+        a[j+1]=temp;
+    }
+}
+void selectionsort(int a[],int n)
+{
+    int i,j,temp,min;
+    for(i=0;i<n;i++)
+    {
+        min=i;
+        for(j=i+1;j<n;j++)
+        {
+            if(a[j]<a[min])
+            min=j;
+        }
+        temp=a[i];
+        a[i]=a[min];
+        a[min]=temp;
+    }
+}
+int main()
+{
+    int ch,n,a[100],key,i;
+    printf("\n enter size");
+    scanf("%d",&n);
+    printf("\n Enter array elements");
+    for(i=0;i<n;i++)
+    {
+    scanf("%d",&a[i]);
+    }
+    while(1)
+    {
+        printf("\n 1.LINEAR SEARCH \n 2.BINARY SEARCH \n 3.BUBBLE SORT \n 4.INSERTION SORT \n 5.SELECTION SORT \n 6.EXIT");
+        printf("\n enter option");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1: printf("\n enter key value to search");
+                scanf("%d",&key);
+               linearsearch(a,key);
+               break;
+            case 2:printf("\n enter element to search");
+                   scanf("%d",&key);
+                   binarysearch(a,n,key);
+                   break;
+            case 3:printf("\n sorting of elements");
+                   Bubblesort(a,n);
+              printf("\n after sorting");
+              for(i=0;i<n;i++)
+              {
+                  printf("%5d",a[i]);
+              }
+              break;
+      case 4:printf("\n insertion sort");
+             insertionsort(a,n);
+             printf("\n after sorting");
+             for(i=0;i<n;i++)
+             {
+                 printf("%5d",a[i]);
+             }
+             break;
+      case 5:printf("\n selection sorting");
+             selectionsort(a,n);
+             printf("\n after sorting");
+             for(i=0;i<n;i++)
+             {
+                 printf("%5d",a[i]);
+             }
+             break;
+      case 6:exit(-1);
+             break;
+      }
+    }
+}
+//4.BREADTH FIRST SEARCH(BFS)
+#include<stdlib.h>
+#include<stdio.h>
+#define max 4
+int g[max][max];
+int Q[max];
+int v[max]={0};
+int front = -1, rear = -1;
+int s;
+int isfull(){
+if( rear == max -1)
+return 1;
+else
+return 0;
+}
+int isempty(){
+if (front == -1 && rear == -1)
+return 1;
+else
+return 0;
+}
+void Enqueue(int n){
+if(isfull())
+printf("Queue is filled\n");
+else{
+Q[++rear] = n;
+if(front == -1)
+front++;
+}
+
+}
+int dequeue(){
+if(isempty())
+printf("Queue is empty\n");
+else if( rear == front){
+int x = Q[rear];
+rear = front = -1;
+return x;
+}
+else{
+int x = Q[front];
+front++;
+return x;
+}
+
+}
+void bfs(int g[][max],int s,int n){
+v[s]=1;
+printf("%d ",s);
+Enqueue(s);
+while(!isempty()){
+int u=dequeue();
+for(int j=1;j<=n;j++){
+if(v[j]!=1&&g[u][j]==1){
+printf("%d ",j);
+Enqueue(j);
+v[j]=1;
+
+}
+}
+}
+}
+void main(){
+int n;
+printf("Enter number of vertices : ");
+scanf("%d",&n);
+for(int i=1;i<=n;i++){
+for(int j=1;j<=n;j++){
+printf("\nEnter edges (%d,%d) : ",i,j);
+scanf("%d",&g[i][j]);
+}
+}
+bfs(g,1,n);
+
+}
+//5.DEPTH FIRST SEARCH(DFS)
+#include <stdio.h>
+#define max 4
+
+int g[max][max];
+int visited[max] = {0};
+int stack[max];
+int top = -1;
+
+void push(int n) {
+    if(top == max - 1) {
+        printf("\nStack is full\n");
+        return;
+    }
+    stack[++top] = n;
+}
+
+int pop() {
+    if(top == -1) {
+        printf("\nStack is empty\n");
+        return -1;
+    }
+    return stack[top--];
+}
+
+void dfs(int v, int n) {
+    push(v);
+    while(top != -1) {
+        v = pop();
+        if(!visited[v]) {
+            visited[v] = 1;
+            printf("%d ", v);
+        }
+        for(int i=n; i>=1; i--) {
+            if(g[v][i] == 1 && !visited[i]) {
+                push(i);
+            }
+        }
+    }
+}
+
+int main() {
+    int n;
+    printf("Enter number of vertices : ");
+    scanf("%d",&n);
+    for(int i=1; i<=n; i++) {
+        for(int j=1; j<=n; j++) {
+            printf("\nEnter edge (%d,%d) : ", i, j);
+            scanf("%d", &g[i][j]);
+        }
+    }
+    printf("\nDFS traversal of graph: ");
+    dfs(1, n);
+    return 0;
+}
+//6.BINARY TREE(ARRAY)
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 50
+int tree[MAX] = {'\0'};
+int n;
+void insert_root(int key);
+void insert_left(int key, int parent);
+void insert_right(int key, int parent);
+void print_tree();
+int get_right(int index);
+int get_left(int index);
+void preorder(int root);
+void inorder(int root);
+void postorder(int root);
+
+void insert_root(int key)
+{
+
+if (tree[0] != '\0')
+printf("\nRoot already exists.");
+else
+tree[0] = key;
+
+}
+
+void insert_left(int key, int parent)
+{
+if (tree[parent] == '\0')
+printf("Root doesn't exist\n");
+else
+tree[2*parent + 1] = key;
+}
+
+void insert_right(int key, int parent)
+{
+if (tree[parent] == '\0')
+                printf("Root doesn't exist!\n");
+else
+tree[2*parent + 2] = key;
+
+}
+
+void print_tree()
+{
+int i;
+for(i=0;i<n;i++)
+printf("%d -> ",tree[i]);
+}
+
+int get_left(int index)
+{
+if((tree[index] != '\0') && (2*index + 1< n))
+return 2*index + 1;
+return -1;
+}
+int get_right(int index)
+{
+if((tree[index] != '\0') && (2*index + 2 < n))
+return 2*index + 2;
+return -1;
+}
+void preorder(int root)
+{
+        if((tree[root] != '\0') && (root >= 0))
+{
+printf("%d-> ",tree[root]);
+preorder(get_left(root));
+preorder(get_right(root));
+}
+}
+
+void inorder(int root)
+{
+        if((tree[root] != '\0') && (root >= 0))
+{
+inorder(get_left(root));
+printf("%d-> ",tree[root]);
+inorder(get_right(root));
+}
+}
+void postorder(int root)
+{
+        if((tree[root] != '\0') && (root >= 0))
+{
+postorder(get_left(root));
+postorder(get_right(root));
+printf("%d-> ",tree[root]);
+}
+}
+
+int main()
+{
+    int ch,key,value;
+printf("Enter number of nodes : ");
+scanf("%d",&n);
+printf("OPTIONS:\n1. Insert at root\n2.Insert in left_node\n3.Insert in right_node\n4.Preorder traversal\n5.Inorder traversal\n6.Postorder traversal\n7.Exit\n");
+while(1)
+{
+   printf("\nEnter option : ");
+   scanf("%d",&ch);
+   switch(ch)
+   {
+       case 1:
+       printf("Enter value : ");
+       scanf("%d",&value);
+       insert_root(value);
+       break;
+       case 2:
+       printf("Insertion at left\n");
+       printf("Enter key : ");
+       scanf("%d",&key);
+       printf("Enter value : ");
+       scanf("%d",&value);
+       insert_left(value,key);
+       break;
+       case 3:
+       printf("Insertion at right\n");
+       printf("Enter key : ");
+       scanf("%d",&key);
+       printf("Enter value : ");
+       scanf("%d",&value);
+       insert_right(value,key);
+       break;
+       case 4:
+       preorder(0);
+       break;
+       case 5:
+       inorder(0);
+       break;
+       case 6:
+       postorder(0);
+       break;
+       case 7:
+       exit(-1);
+       default:
+       printf("Invalid option\n");
+   }
+}
+
+}
